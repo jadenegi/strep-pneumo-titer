@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pneumococcal Titer Interpreter</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="masthead">
+        <div>
+          <p class="eyebrow">Strep pneumo antibody panel</p>
+          <h1>Pneumococcal titer interpreter</h1>
+        </div>
+        <div class="summary-strip" aria-live="polite">
+          <div>
+            <span class="summary-label">Positive titers</span>
+            <strong id="positiveCount">0 / 23</strong>
+          </div>
+          <div>
+            <span class="summary-label">Selected vaccine</span>
+            <strong id="vaccineSummary">PPSV23</strong>
+          </div>
+          <div>
+            <span class="summary-label">Response</span>
+            <strong id="responseSummary">Enter titers</strong>
+          </div>
+        </div>
+      </header>
+
+      <section class="panel controls-panel" aria-label="Interpretation settings">
+        <div class="field-group">
+          <label for="ageGroup">Patient age</label>
+          <select id="ageGroup">
+            <option value="child">2-5 years old</option>
+            <option value="older">&gt; 5 years old</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="cutoffInput">Positive titer cutoff</label>
+          <input id="cutoffInput" type="number" min="0" step="0.1" value="1.0" />
+        </div>
+
+        <div class="field-group">
+          <label for="vaccineSelect">Vaccine denominator</label>
+          <select id="vaccineSelect">
+            <option value="PPSV23">PPSV23</option>
+            <option value="PCV13">PCV13</option>
+            <option value="PCV20">PCV20</option>
+            <option value="PCV21">PCV21</option>
+          </select>
+        </div>
+
+        <label class="toggle-row" for="prePostToggle">
+          <input id="prePostToggle" type="checkbox" />
+          <span>Pre and post vaccination</span>
+        </label>
+
+        <button id="resetCutoff" class="button" type="button">Use age cutoff</button>
+        <button id="clearValues" class="button" type="button">Clear values</button>
+      </section>
+
+      <section class="panel table-panel">
+        <div class="section-head">
+          <div>
+            <h2>Titer entry</h2>
+            <p id="tableNote" class="muted">Enter values from the report. Blank fields are excluded from percentages.</p>
+          </div>
+          <div class="legend">
+            <span><i class="dot dot-positive"></i>Positive</span>
+            <span><i class="dot dot-vaccine"></i>In selected vaccine</span>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr id="tableHeader"></tr>
+            </thead>
+            <tbody id="titerRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel result-panel" aria-live="polite">
+        <div class="result-block">
+          <span class="summary-label">Panel result</span>
+          <strong id="panelResult">0 positive titers</strong>
+        </div>
+        <div class="result-block">
+          <span class="summary-label">Vaccine-specific result</span>
+          <strong id="vaccineResult">0% positive</strong>
+        </div>
+        <div class="result-block">
+          <span class="summary-label">Adequacy threshold</span>
+          <strong id="adequacyRule">≥50% positive</strong>
+        </div>
+        <div class="result-block" id="foldRiseBlock" hidden>
+          <span class="summary-label">2-fold rise</span>
+          <strong id="foldRiseResult">0 serotypes</strong>
+        </div>
+      </section>
+
+      <section class="fine-print">
+        <p>
+          This tool counts serotypes against the selected cutoff and selected vaccine denominator. It does not replace clinical judgment or local immunology guidance.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
